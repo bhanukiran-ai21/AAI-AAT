@@ -1,0 +1,95 @@
+import random
+
+class Farm:
+    def __init__(self):
+        self.money = 1000
+        self.crops = {'wheat': 0, 'corn': 0}
+        self.livestock = {'chickens': 0, 'cows': 0}
+        self.market_prices = {'wheat': 10, 'corn': 8, 'chickens': 20, 'cows': 100}
+        
+    def buy_crop(self, crop, quantity):
+        if crop not in self.crops:
+            print(f"{crop} is not a valid crop.")
+            return
+        price = self.market_prices[crop]
+        total_cost = quantity * price
+        if self.money >= total_cost:
+            self.money -= total_cost
+            self.crops[crop] += quantity
+            print(f"You have bought {quantity} {crop} for ${total_cost}.")
+        else:
+            print("Insufficient funds to buy crops.")
+            
+    def sell_crop(self, crop, quantity):
+        if crop not in self.crops:
+            print(f"{crop} is not a valid crop.")
+            return
+        if self.crops[crop] >= quantity:
+            price = self.market_prices[crop]
+            total_earning = quantity * price
+            self.money += total_earning
+            self.crops[crop] -= quantity
+            print(f"You have sold {quantity} {crop} for ${total_earning}.")
+        else:
+            print(f"You do not have enough {crop} to sell.")
+            
+    def buy_livestock(self, animal, quantity):
+        if animal not in self.livestock:
+            print(f"{animal} is not a valid livestock.")
+            return
+        price = self.market_prices[animal]
+        total_cost = quantity * price
+        if self.money >= total_cost:
+            self.money -= total_cost
+            self.livestock[animal] += quantity
+            print(f"You have bought {quantity} {animal} for ${total_cost}.")
+        else:
+            print("Insufficient funds to buy livestock.")
+            
+    def sell_livestock(self, animal, quantity):
+        if animal not in self.livestock:
+            print(f"{animal} is not a valid livestock.")
+            return
+        if self.livestock[animal] >= quantity:
+            price = self.market_prices[animal]
+            total_earning = quantity * price
+            self.money += total_earning
+            self.livestock[animal] -= quantity
+            print(f"You have sold {quantity} {animal} for ${total_earning}.")
+        else:
+            print(f"You do not have enough {animal} to sell.")
+            
+    def generate_random_prices(self):
+        for resource in self.market_prices:
+            self.market_prices[resource] = random.randint(5, 20)
+        print("Random market prices have been generated.")
+        
+    def print_status(self):
+        print("------ Farm Status ------")
+        print(f"Money: ${self.money}")
+        print("Crops:")
+        for crop, quantity in self.crops.items():
+            print(f"{crop}: {quantity}")
+        print("Livestock:")
+        for animal, quantity in self.livestock.items():
+            print(f"{animal}: {quantity}")
+        print("-------------------------")
+
+# Example usage:
+farm = Farm()
+farm.print_status()
+
+farm.buy_crop('wheat', 10)
+farm.sell_crop('wheat', 5)
+
+farm.buy_livestock('chickens', 5)
+farm.sell_livestock('chickens', 3)
+
+farm.buy_crop('corn', 8)
+farm.sell_crop('corn', 3)
+
+farm.buy_livestock('cows', 2)
+farm.sell_livestock('cows', 1)
+
+farm.generate_random_prices()
+farm.print_status()
